@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "RiffUtils.h"
 #include "IMA4Util.h"
 #include <cstring>
+#include <iostream>
 
 using namespace nqr;
 
@@ -210,6 +211,7 @@ void WavDecoder::LoadFromBuffer(AudioData * data, const std::vector<uint8_t> & m
         
         data->lengthSeconds = ((float) totalSamples / (float) wavHeader.sample_rate) / wavHeader.channel_count;
         data->samples.resize(totalSamples);
+        std::cout << "convert 1" << "\n";
         ConvertToFloat32(data->samples.data(), adpcm_pcm16.data(), totalSamples, data->sourceFormat);
     }
     else
@@ -217,7 +219,9 @@ void WavDecoder::LoadFromBuffer(AudioData * data, const std::vector<uint8_t> & m
         data->lengthSeconds = ((float) DataChunkInfo.size / (float) wavHeader.sample_rate) / wavHeader.frame_size;
         size_t totalSamples = (DataChunkInfo.size / wavHeader.frame_size) * wavHeader.channel_count;
         data->samples.resize(totalSamples);
+        std::cout << "convert 2 " << memory.size() << " " << DataChunkInfo.size << " " << wavHeader.frame_size << " " << wavHeader.channel_count << " " << DataChunkInfo.offset << " " << totalSamples << "\n";
         ConvertToFloat32(data->samples.data(), memory.data() + DataChunkInfo.offset, totalSamples, data->sourceFormat);
+        // ConvertToFloat32(data->samples.data(), memory.data(), totalSamples, data->sourceFormat);
     }
 }
 

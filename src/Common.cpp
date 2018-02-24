@@ -24,6 +24,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "Common.h"
+#include <iostream>
 
 using namespace nqr;
 
@@ -63,6 +64,7 @@ NyquistFileBuffer nqr::ReadFile(std::string pathToFile)
 // @todo normalize?
 void nqr::ConvertToFloat32(float * dst, const uint8_t * src, const size_t N, PCMFormat f)
 {
+  std::cout << "convert " << (void *)dst << " " << (void *)src << " " << N << " " << f << "\n";
     assert(f != PCM_END);
     
     if (f == PCM_U8)
